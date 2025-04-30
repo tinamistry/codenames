@@ -1,15 +1,21 @@
 import React from 'react'
 import './styles/board.css'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import words from './data/words';
+import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
+import { textAlign } from '@mui/system';
+
 
 function Board() {
+    const[shuffledWords, setShuffledWords] = useState(Array(25).fill(''))
 
-
+ 
 
 
     const fetchRandomWords = async() =>{
-       
 
         let shuffled = words.slice(0)
         let lastIndex = shuffled.length - 1
@@ -21,9 +27,8 @@ function Board() {
             lastIndex -= 1;
         }
         shuffled = shuffled.slice(0,25)
-        console.log(shuffled)
-       
-     
+        setShuffledWords(shuffled)
+        console.log(shuffledWords)
     }
 
 
@@ -44,12 +49,42 @@ function Board() {
 
         <div className = "cards">
             {/*25 words*/}
-            <button onClick = {fetchRandomWords}>hello</button>
-            game board
+            <Box
+                sx={{
+                    width: '100%',
+                    height:'100%',
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(5, 1fr)',
+                    gap: 2,
+                }} >
+                {shuffledWords.map((word, index) =>(
+                    <Card style = {{borderStyle: 'solid'}}>
+                        <CardContent   sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    height: '100%',
+                                    marginTop: '-20px'
+                                }}>
+                        <Typography>
+                                {word}
+                            </Typography>
+                        </CardContent>
+                    </Card>
+                )
+                )}
+
+
+            </Box>
+
+   
         </div>
 
-        <div className = "new-game">
-            new game button
+        <div className = "new-game" >
+            <button onClick = {fetchRandomWords}>
+                 new game button
+            </button>
+
         </div>
     </div>
   )
